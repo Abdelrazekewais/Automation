@@ -1,0 +1,84 @@
+package FindingElemnts;
+
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+
+public class SauceDemo {
+	ChromeDriver driver = new ChromeDriver();
+	@BeforeTest
+	public void OpenURL()
+	{
+		driver.navigate().to("https://www.saucedemo.com/");
+		driver.manage().window().maximize();	
+	}
+	
+	@SuppressWarnings("deprecation")
+	@Test
+	public void LoginAndCheckout()
+	{
+		WebElement usernametxt = driver.findElement(By.id("user-name"));
+		usernametxt.sendKeys("standard_user");
+		WebElement passwordtxt = driver.findElement(By.id("password"));
+		passwordtxt.sendKeys("secret_sauce");
+		WebElement LoginBtn = driver.findElement(By.id("login-button"));
+		LoginBtn.click();
+		
+		WebElement AppLogo = driver.findElement(By.className("app_logo"));
+		Assert.assertEquals("Swag Labs", AppLogo.getText());
+		
+		WebElement SelectOption = driver.findElement(By.xpath("//*[@id=\"add-to-cart-sauce-labs-"
+				+ "backpack\"]"));
+		SelectOption.click();
+		
+		WebElement Cart = driver.findElement(By.id("shopping_cart_container"));
+		Cart.click();
+		WebElement RemoveBtn = driver.findElement(By.id("remove-sauce-labs-backpack"));
+		Assert.assertEquals("Remove", RemoveBtn.getText());
+		
+		WebElement CheckOutBtn = driver.findElement(By.id("checkout"));
+		CheckOutBtn.click();
+		
+		WebElement FirstName = driver.findElement(By.id("first-name"));
+		FirstName.sendKeys("Test");
+		
+		WebElement SecondName = driver.findElement(By.id("last-name"));
+		SecondName.sendKeys("Test");
+		
+		WebElement PostalCode = driver.findElement(By.id("postal-code"));
+		PostalCode.sendKeys("3387722");
+		
+		WebElement Continue = driver.findElement(By.id("continue"));
+		Continue.click();
+		
+		WebElement Finish = driver.findElement(By.id("finish"));
+		Finish.click();
+		
+		WebElement MakeSure = driver.findElement(By.tagName("h2"));
+		Assert.assertEquals("Thank you for your order!", MakeSure.getText());
+		
+		WebElement LogOut1 = driver.findElement(By.id("react-burger-menu-btn"));
+		LogOut1.click();
+		
+		WebElement LogOut2 = driver.findElement(By.id("about_sidebar_link"));
+		LogOut2.click();		
+	
+	}
+
+
+	
+	
+	@AfterTest(enabled = false)
+	public void Close()
+	{
+		driver.quit();
+	}
+
+}
